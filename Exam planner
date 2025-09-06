@@ -1,0 +1,122 @@
+exam-planner/
+│── index.html
+│── manifest.json
+│── service-worker.js
+ │<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exam Planner</title>
+  <link rel="manifest" href="manifest.json">
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("service-worker.js");
+    }
+  </script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fa;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 15px;
+      text-align: center;
+    }
+    th {
+      background: #4cafef;
+      color: white;
+    }
+    tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+    td {
+      height: 60px;
+    }
+  </style>
+</head>
+<body>
+  <h1>📚 Exam Planner</h1>
+  <table>
+    <tr>
+      <th>Time</th>
+      <th>Monday</th>
+      <th>Tuesday</th>
+      <th>Wednesday</th>
+      <th>Thursday</th>
+      <th>Friday</th>
+      <th>Saturday</th>
+      <th>Sunday</th>
+    </tr>
+    <tr>
+      <td>8:00 - 10:00</td>
+      <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td>10:00 - 12:00</td>
+      <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td>2:00 - 4:00</td>
+      <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td>4:00 - 6:00</td>
+      <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+  </table>
+</body>
+</html>── icon.png   (logo naka){
+      "name": "Exam Planner",
+        "short_name": "Planner",
+          "start_url": "index.html",
+            "display": "standalone",
+              "background_color": "#f5f7fa",
+                "theme_color": "#4cafef",
+                  "icons": [
+                      {
+                            "src": "icon.png",
+                                  "sizes": "192x192",
+                                        "type": "image/png"
+                                            },
+                                                {
+                                                      "src": "icon.png",
+                                                            "sizes": "512x512",
+                                                                  "type": "image/png"
+                                                                      }
+                                                                        ]
+                                                                        }self.addEventListener("install", (event) => {
+                                                                              event.waitUntil(
+                                                                                  caches.open("exam-planner-cache").then((cache) => {
+                                                                                        return cache.addAll([
+                                                                                                "index.html",
+                                                                                                        "manifest.json",
+                                                                                                                "icon.png"
+                                                                                                                      ]);
+                                                                                                                          })
+                                                                                                                            );
+                                                                                                                            });
+
+                                                                                                                            self.addEventListener("fetch", (event) => {
+                                                                                                                              event.respondWith(
+                                                                                                                                  caches.match(event.request).then((response) => {
+                                                                                                                                        return response || fetch(event.request);
+                                                                                                                                            })
+                                                                                                                                              );
+                                                                                                                                              });
+                                                                        })
+}
